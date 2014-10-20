@@ -31,7 +31,7 @@ function (app, FauxtonAPI, React, Stores, Actions, ZeroClipboard) {
         <div className="version-footer">
           Fauxton on
           {' '}
-          <a href="https://github.com/pouchdb/pouchdb-server">PouchDB Server</a>
+          <a href="https://github.com/pouchdb/pouchdb">PouchDB</a>
           <br/>
           v. {version}
         </div>

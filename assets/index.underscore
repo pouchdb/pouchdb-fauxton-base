@@ -42,6 +42,7 @@
   </div>
 
   <!-- Application source. -->
+  <script src="./js/pouchdb-offline.js"></script>
   <script data-main="/config" src="<%= requirejs %>"></script>
 </body>
 </html>

@@ -71,7 +71,8 @@ module.exports = function (grunt) {
       img: ["assets/img/**"],
       // used in concat:index_css to keep file ordering intact
       // fauxton.css should load first
-      css: ["assets/css/*.css", "dist/debug/css/fauxton.css"]
+      css: ["assets/css/*.css", "dist/debug/css/fauxton.css"],
+      html: ["assets/*.html"]
     };
     initHelper.processAddons(function (addon) {
       // Less files from addons
@@ -334,6 +335,7 @@ module.exports = function (grunt) {
       dist:{
         files:[
           {src: 'dist/debug/index.html', dest: 'dist/release/index.html'},
+          {src: assets.html, dest: "dist/release/", flatten: true, expand: true},
           {src: assets.img, dest: 'dist/release/img/', flatten: true, expand: true},
           {src: assets.fonts, dest: 'dist/release/fonts/', flatten: true, expand: true},
           {src: './favicon.ico', dest: "dist/release/favicon.ico"}
@@ -341,6 +343,7 @@ module.exports = function (grunt) {
       },
       debug:{
         files:[
+          {src: assets.html, dest: "dist/debug/", flatten: true, expand: true},
           {src: assets.fonts, dest: "dist/debug/fonts/", flatten: true, expand: true},
           {src: assets.img, dest: "dist/debug/img/", flatten: true, expand: true},
           {src: './favicon.ico', dest: "dist/debug/favicon.ico"}
