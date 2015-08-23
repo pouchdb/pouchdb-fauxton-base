@@ -27,8 +27,7 @@ define([
   'core/couchdbSession',
 
   // plugins
-  'plugins/backbone.layoutmanager',
-  'plugins/jquery.form'
+  'plugins/backbone.layoutmanager'
 ],
 
 function (app, $, _, Backbone, Bootstrap, Helpers, Utils, FauxtonAPI, Couchdb) {
@@ -62,6 +61,35 @@ function (app, $, _, Backbone, Bootstrap, Helpers, Utils, FauxtonAPI, Couchdb) {
 
   // Localize or create a new JavaScript Template object
   var JST = window.JST = window.JST || {};
+
+  $(document).on('ajaxSend.csrf', function (elm, xhr, s) {
+
+    function parseCookies (cookies) {
+      if (!cookies) {
+        return {};
+      }
+
+      return _.reduce(cookies.split(';'), function (list, cookie) {
+        var parts = cookie.split('=');
+        list[parts.shift().trim()] = decodeURI(parts.join('='));
+        return list;
+      }, {});
+    }
+
+    var cookies = parseCookies(document.cookie);
+    var csrf = cookies['CouchDB-CSRF'] ? cookies['CouchDB-CSRF'] : 'true';
+
+    xhr.setRequestHeader('X-CouchDB-CSRF', csrf);
+  });
+
+  $(document).on('ajaxComplete', function (event, xhr, settings) {
+    if (xhr.getResponseHeader('x-couchdb-csrf-valid') === 'true') {
+      FauxtonAPI.showCsrfInfo();
+      return;
+    }
+
+    FauxtonAPI.removeHeaderLink && FauxtonAPI.removeHeaderLink({id: 'csrf', statusArea: true});
+  });
 
   // Configure LayoutManager with Backbone Boilerplate defaults
   FauxtonAPI.Layout.configure({
@@ -108,8 +136,8 @@ function (app, $, _, Backbone, Bootstrap, Helpers, Utils, FauxtonAPI, Couchdb) {
     // because I don't want to require fauxton/actions in this method.
     addHeaderLink: function (link) {
       FauxtonAPI.dispatch({
-          type: 'ADD_NAVBAR_LINK',
-          link: link
+        type: 'ADD_NAVBAR_LINK',
+        link: link
       });
     },
 
@@ -118,13 +146,18 @@ function (app, $, _, Backbone, Bootstrap, Helpers, Utils, FauxtonAPI, Couchdb) {
         type: 'UPDATE_NAVBAR_LINK',
         link: link
       });
+    },
 
+    showCsrfInfo: function () {
+      FauxtonAPI.dispatch({
+        type: 'SHOW_CSRF_INFO'
+      });
     },
 
     removeHeaderLink: function (link) {
       FauxtonAPI.dispatch({
-          type: 'REMOVE_NAVBAR_LINK',
-          link: link
+        type: 'REMOVE_NAVBAR_LINK',
+        link: link
       });
     }
   });

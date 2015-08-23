@@ -11,24 +11,27 @@
 // the License.
 
 module.exports = {
-  'Edit view: Queryoptions work': function (client) {
+  'Uploading an attachment works': function (client) {
     /*jshint multistr: true */
+    /*globals __dirname */
     var waitTime = client.globals.maxWaitTime,
         newDatabaseName = client.globals.testDatabaseName,
         baseUrl = client.globals.test_settings.launch_url;
 
     client
-      .populateDatabase(newDatabaseName, 3)
       .loginToGUI()
-      .url(baseUrl + '/#/database/' + newDatabaseName + '/_design/keyview/_view/keyview')
-      .clickWhenVisible('#toggle-query', waitTime, false)
-      .clickWhenVisible('#byKeys', waitTime, false)
-      .setValue('#keys-input', '["document_1"]')
-      .clickWhenVisible('#query-options .btn-success')
-      .waitForElementNotPresent('#right-content [data-id="document_2"]', waitTime, false)
-      .assert.elementNotPresent('#right-content [data-id="document_2"]')
-      .assert.elementNotPresent('#right-content [data-id="document_0"]')
-      .assert.elementPresent('#right-content [data-id="document_1"]')
+      .createDatabase(newDatabaseName)
+      .createDocument('my_doc', newDatabaseName)
+      .url(baseUrl + '/#/database/' + newDatabaseName + '/my_doc')
+      .clickWhenVisible('.panel-button.upload')
+      .waitForElementVisible('input#_attachments', waitTime)
+      .setValue('input#_attachments', require('path').resolve(__dirname + '/uploadAttachment.js'))
+      .clickWhenVisible('#upload-btn')
+      .waitForElementVisible('#global-notification-id', waitTime, false)
+      .getText('#global-notification-id', function (result) {
+        var data = result.value;
+        this.verify.ok(data, 'Document saved successfully.');
+      })
     .end();
   }
 };

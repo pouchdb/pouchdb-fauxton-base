@@ -19,6 +19,13 @@ define([
 function (app, FauxtonAPI, ActionTypes) {
   var Stores = {};
 
+  var csrfItem = {
+    id: 'csrf',
+    title: 'CSRF',
+    icon: 'icon-shield',
+    statusArea: true
+  };
+
   Stores.NavBarStore = FauxtonAPI.Store.extend({
     initialize: function () {
       this.reset();
@@ -29,6 +36,7 @@ function (app, FauxtonAPI, ActionTypes) {
       this.version = null;
       this.navLinks = [];
       this.footerNavLinks = [];
+      this.statusArea = [csrfItem];
       this.bottomNavLinks = [{
         id: 'Documentation',
         title: "Documentation",
@@ -40,25 +48,40 @@ function (app, FauxtonAPI, ActionTypes) {
       }];
     },
 
+    addCsrfInfo: function () {
+      this.addLink(csrfItem);
+    },
+
     addLink: function (link) {
       if (link.top && !link.bottomNav) {
         this.navLinks.unshift(link);
-      } else if (link.top && link.bottomNav) {
-        this.bottomNavLinks.unshift(link);
-      } else if (link.bottomNav) {
-        this.bottomNavLinks.push(link);
-      } else if (link.footerNav) {
-        this.footerNavLinks.push(link);
-      } else {
-        this.navLinks.push(link);
+        return;
       }
+      if (link.top && link.bottomNav) {
+        this.bottomNavLinks.unshift(link);
+        return;
+      }
+      if (link.bottomNav) {
+        this.bottomNavLinks.push(link);
+        return;
+      }
+      if (link.footerNav) {
+        this.footerNavLinks.push(link);
+        return;
+      }
+      if (link.statusArea) {
+        this.statusArea.push(link);
+        return;
+      }
+
+      this.navLinks.push(link);
     },
 
     removeLink: function (removeLink) {
       var links = this.getLinkSection(removeLink);
       var indexOf = 0;
 
-      var res = _.first(links, function (link) {
+      var res = _.filter(links, function (link) {
         if (link.id === removeLink.id) {
           return true;
         }
@@ -67,7 +90,7 @@ function (app, FauxtonAPI, ActionTypes) {
         return false;
       });
 
-      if (!res) { return; }
+      if (!res.length) { return; }
 
       links.splice(indexOf, 1);
     },
@@ -84,6 +107,10 @@ function (app, FauxtonAPI, ActionTypes) {
       return this.footerNavLinks;
     },
 
+    getStatusAreaItems: function () {
+      return this.statusArea;
+    },
+
     toggleMenu: function () {
       app.utils.localStorageSet(FauxtonAPI.constants.LOCAL_STORAGE.SIDEBAR_MINIMIZED,
                                 !this.isMinimized());
@@ -98,6 +125,10 @@ function (app, FauxtonAPI, ActionTypes) {
 
       if (link.footerNav) {
         links = this.footerNavLinks;
+      }
+
+      if (link.statusArea) {
+        links = this.statusArea;
       }
 
       return links;
@@ -143,35 +174,32 @@ function (app, FauxtonAPI, ActionTypes) {
 
         case ActionTypes.ADD_NAVBAR_LINK:
           this.addLink(action.link);
-          this.triggerChange();
         break;
         case ActionTypes.TOGGLE_NAVBAR_MENU:
           this.toggleMenu();
-          this.triggerChange();
         break;
         case ActionTypes.UPDATE_NAVBAR_LINK:
           this.updateLink(action.link);
-          this.triggerChange();
         break;
 
         case ActionTypes.CLEAR_NAVBAR_LINK:
           this.reset();
-          this.triggerChange();
         break;
 
         case ActionTypes.REMOVE_NAVBAR_LINK:
           this.removeLink(action.link);
-          this.triggerChange();
         break;
 
         case ActionTypes.NAVBAR_SET_VERSION_INFO:
           this.setVersion(action.version);
-          this.triggerChange();
+        break;
+
+        case ActionTypes.SHOW_CSRF_INFO:
+          this.addCsrfInfo();
         break;
 
         case ActionTypes.NAVBAR_ACTIVE_LINK:
           this.setActiveLink(action.name);
-          this.triggerChange();
         break;
 
         default:
@@ -179,6 +207,7 @@ function (app, FauxtonAPI, ActionTypes) {
         // do nothing
       }
 
+      this.triggerChange();
     }
   });
 
