@@ -30,7 +30,8 @@ function (app, FauxtonAPI, React, Stores, Actions, ZeroClipboard) {
       return (
         <div className="version-footer">
           Fauxton on
-          <a href="http://couchdb.apache.org/"> Apache CouchDB</a>
+          {' '}
+          <a href="https://github.com/pouchdb/pouchdb-server">PouchDB Server</a>
           <br/>
           v. {version}
         </div>
@@ -152,7 +153,7 @@ function (app, FauxtonAPI, React, Stores, Actions, ZeroClipboard) {
 
           <div className="bottom-container">
             <div className="brand">
-              <div className="icon">Apache Fauxton</div>
+              <div className="icon">PouchDB Fauxton</div>
             </div>
 
             <Footer version={this.state.version}/>
