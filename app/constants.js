@@ -34,24 +34,24 @@ define([], function () {
 
     // documentation URLs
     DOC_URLS: {
-      GENERAL: '/_utils/docs/intro/api.html#documents',
-      ALL_DBS: '/_utils/docs/api/server/common.html?highlight=all_dbs#get--_all_dbs',
-      REPLICATION: '/_utils/docs/replication/replicator.html#basics',
-      DESIGN_DOCS: '/_utils/docs/couchapp/ddocs.html#design-docs',
-      DESIGN_DOC_METADATA: '/_utils/docs/api/ddoc/common.html#api-ddoc-view-index-info',
-      VIEW_FUNCS: '/_utils/docs/couchapp/ddocs.html#view-functions',
-      MAP_FUNCS: '/_utils/docs/couchapp/ddocs.html#map-functions',
-      REDUCE_FUNCS: '/_utils/docs/couchapp/ddocs.html#reduce-and-rereduce-functions',
-      API_REF: '/_utils/docs/http-api.html',
-      DB_PERMISSION: '/_utils/docs/api/database/security.html#db-security',
-      STATS: '/_utils/docs/api/server/common.html?highlight=stats#get--_stats',
-      ACTIVE_TASKS: '/_utils/docs/api/server/common.html?highlight=stats#active-tasks',
-      LOG: '/_utils/docs/api/server/common.html?highlight=stats#log',
-      CONFIG: '/_utils/docs/config/index.html',
-      VIEWS: '/_utils/docs/intro/overview.html#views',
-      MANGO_INDEX: '/_utils/docs/intro/api.html#documents',
-      MANGO_SEARCH: '/_utils/docs/intro/api.html#documents',
-      CHANGES: '/_utils/docs/api/database/changes.html?highlight=changes#post--db-_changes'
+      GENERAL: 'http://docs.couchdb.org/en/latest/intro/api.html#documents',
+      ALL_DBS: 'http://docs.couchdb.org/en/latest/api/server/common.html?highlight=all_dbs#get--_all_dbs',
+      REPLICATION: 'http://docs.couchdb.org/en/latest/replication/replicator.html#basics',
+      DESIGN_DOCS: 'http://docs.couchdb.org/en/latest/couchapp/ddocs.html#design-docs',
+      DESIGN_DOC_METADATA: 'http://docs.couchdb.org/en/latest/api/ddoc/common.html#api-ddoc-view-index-info',
+      VIEW_FUNCS: 'http://docs.couchdb.org/en/latest/couchapp/ddocs.html#view-functions',
+      MAP_FUNCS: 'http://docs.couchdb.org/en/latest/couchapp/ddocs.html#map-functions',
+      REDUCE_FUNCS: 'http://docs.couchdb.org/en/latest/couchapp/ddocs.html#reduce-and-rereduce-functions',
+      API_REF: 'http://docs.couchdb.org/en/latest/http-api.html',
+      DB_PERMISSION: 'http://docs.couchdb.org/en/latest/api/database/security.html#db-security',
+      STATS: 'http://docs.couchdb.org/en/latest/api/server/common.html?highlight=stats#get--_stats',
+      ACTIVE_TASKS: 'http://docs.couchdb.org/en/latest/api/server/common.html?highlight=stats#active-tasks',
+      LOG: 'http://docs.couchdb.org/en/latest/api/server/common.html?highlight=stats#log',
+      CONFIG: 'http://docs.couchdb.org/en/latest/config/index.html',
+      VIEWS: 'http://docs.couchdb.org/en/latest/intro/overview.html#views',
+      MANGO_INDEX: 'http://docs.couchdb.org/en/latest/intro/api.html#documents',
+      MANGO_SEARCH: 'http://docs.couchdb.org/en/latest/intro/api.html#documents',
+      CHANGES: 'http://docs.couchdb.org/en/latest/api/database/changes.html?highlight=changes#post--db-_changes'
     },
 
     LOCAL_STORAGE: {
