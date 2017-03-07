@@ -1,6 +1,8 @@
 PouchDB-Fauxton - base code
 ===========================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/pouchdb/pouchdb-fauxton-base.svg)](https://greenkeeper.io/)
+
 This is a fork of [the express-pouchdb Fauxton project](https://github.com/pouchdb/pouchdb-fauxton)
 which makes Fauxton run on top of pure PouchDB by intercepting
 XMLHttpRequests. Go there for non-pouchdb-fauxton browser addons
